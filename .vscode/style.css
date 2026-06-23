@@ -1,0 +1,455 @@
+/* ─── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:         #0F172A;
+  --card:       #1E293B;
+  --card-alt:   #263348;
+  --accent:     #38BDF8;
+  --accent-glow:#38BDF840;
+  --valid:      #22C55E;
+  --valid-bg:   #22C55E18;
+  --invalid:    #EF4444;
+  --invalid-bg: #EF444418;
+  --text:       #F8FAFC;
+  --text-muted: #94A3B8;
+  --border:     #334155;
+  --border-focus:#38BDF8;
+  --radius:     12px;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --transition:  0.2s ease;
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  /* Subtle grid pattern */
+  background-image:
+    linear-gradient(rgba(56,189,248,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56,189,248,.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ─── Page Wrapper ─────────────────────────────────────────── */
+.page-wrapper {
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+}
+
+/* ─── Card ─────────────────────────────────────────────────── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2.5rem 2.25rem;
+  box-shadow:
+    0 0 0 1px rgba(56,189,248,.06),
+    0 24px 64px rgba(0,0,0,.5);
+}
+
+/* ─── Header ───────────────────────────────────────────────── */
+.card-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.logo-mark {
+  display: inline-block;
+  font-size: 1.5rem;
+  color: var(--accent);
+  margin-bottom: .75rem;
+  animation: spin-pulse 4s linear infinite;
+}
+
+@keyframes spin-pulse {
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(1.2); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.card-header h1 {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -.5px;
+  color: var(--text);
+}
+
+.card-header p {
+  margin-top: .35rem;
+  font-size: .875rem;
+  color: var(--text-muted);
+}
+
+/* ─── Field Groups ─────────────────────────────────────────── */
+.field-group {
+  margin-bottom: 1.25rem;
+}
+
+label {
+  display: block;
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: .45rem;
+  transition: color var(--transition);
+}
+
+.field-group:focus-within label {
+  color: var(--accent);
+}
+
+/* ─── Input Wrapper ────────────────────────────────────────── */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* ─── Inputs & Select ──────────────────────────────────────── */
+input, select {
+  width: 100%;
+  padding: .75rem 2.75rem .75rem 1rem;
+  background: var(--card-alt);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: .95rem;
+  outline: none;
+  transition:
+    border-color var(--transition),
+    background var(--transition),
+    box-shadow var(--transition);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input::placeholder { color: var(--text-muted); opacity: .6; }
+
+input:focus, select:focus {
+  border-color: var(--border-focus);
+  background: var(--bg);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* Select arrow */
+.select-wrapper::after {
+  content: '';
+  position: absolute;
+  right: 2.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--text-muted);
+  pointer-events: none;
+}
+
+select { cursor: pointer; padding-right: 3.5rem; }
+select option { background: var(--card); color: var(--text); }
+
+/* password input — leave room for the eye button */
+#password, #confirm {
+  padding-right: 3.25rem;
+}
+
+/* ─── Toggle Password Button ───────────────────────────────── */
+.toggle-pw {
+  position: absolute;
+  right: 2.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: .25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition);
+  z-index: 2;
+}
+.toggle-pw:hover { color: var(--accent); }
+.eye-icon { width: 1rem; height: 1rem; }
+
+/* ─── State Icon (✓ / ✕) ───────────────────────────────────── */
+.field-icon {
+  position: absolute;
+  right: .85rem;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: opacity var(--transition), color var(--transition);
+  opacity: 0;
+}
+
+/* ─── :user-valid & :user-invalid pseudo-classes ──────────── */
+
+/* Valid state */
+input:user-valid,
+select:user-valid {
+  border-color: var(--valid);
+  background-color: var(--valid-bg);
+}
+input:user-valid:focus,
+select:user-valid:focus {
+  box-shadow: 0 0 0 3px rgba(34,197,94,.2);
+}
+
+/* Invalid state */
+input:user-invalid,
+select:user-invalid {
+  border-color: var(--invalid);
+  background-color: var(--invalid-bg);
+}
+input:user-invalid:focus,
+select:user-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(239,68,68,.2);
+}
+
+/* JS-driven classes (for custom logic like password match) */
+.field-group.is-valid   input,
+.field-group.is-valid   select {
+  border-color: var(--valid);
+  background-color: var(--valid-bg);
+}
+
+.field-group.is-invalid input,
+.field-group.is-invalid select {
+  border-color: var(--invalid);
+  background-color: var(--invalid-bg);
+}
+
+.field-group.is-valid .field-icon {
+  content: '✓';
+  color: var(--valid);
+  opacity: 1;
+}
+.field-group.is-valid .field-icon::before  { content: '✓'; color: var(--valid); }
+.field-group.is-invalid .field-icon::before { content: '✕'; color: var(--invalid); }
+.field-group.is-invalid .field-icon { opacity: 1; }
+
+/* Label color on state */
+.field-group.is-valid   label { color: var(--valid);   }
+.field-group.is-invalid label { color: var(--invalid); }
+
+/* ─── Error Messages ───────────────────────────────────────── */
+.error-msg {
+  font-size: .78rem;
+  color: var(--invalid);
+  margin-top: .35rem;
+  min-height: 1rem;
+  padding-left: .25rem;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.field-group.is-invalid .error-msg {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Password Strength Bar ────────────────────────────────── */
+.strength-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 99px;
+  margin-top: .6rem;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.field-group.has-value .strength-bar { opacity: 1; }
+
+.strength-fill {
+  height: 100%;
+  border-radius: 99px;
+  width: 0%;
+  transition: width .3s ease, background .3s ease;
+}
+
+.strength-label {
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-top: .3rem;
+  opacity: 0;
+  transition: opacity var(--transition);
+  color: var(--text-muted);
+}
+
+.field-group.has-value .strength-label { opacity: 1; }
+
+/* ─── Submit Button ────────────────────────────────────────── */
+.submit-btn {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: .9rem 1.5rem;
+  background: linear-gradient(135deg, var(--accent), #0EA5E9);
+  border: none;
+  border-radius: var(--radius);
+  color: #0F172A;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  transition: opacity var(--transition), transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 4px 24px rgba(56,189,248,.3);
+}
+
+.submit-btn:hover {
+  opacity: .92;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 32px rgba(56,189,248,.45);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(56,189,248,.2);
+}
+
+.btn-arrow {
+  font-size: 1.1rem;
+  transition: transform var(--transition);
+}
+.submit-btn:hover .btn-arrow { transform: translateX(4px); }
+
+/* ─── Shake animation on invalid submit ────────────────────── */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+
+.shake { animation: shake .4s cubic-bezier(.36,.07,.19,.97); }
+
+/* ─── Form Footer ──────────────────────────────────────────── */
+.form-footer {
+  text-align: center;
+  margin-top: 1.25rem;
+  font-size: .82rem;
+  color: var(--text-muted);
+}
+.form-footer a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.form-footer a:hover { text-decoration: underline; }
+
+/* ─── Success Overlay ──────────────────────────────────────── */
+.success-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+  animation: fade-in .3s ease;
+}
+
+.success-overlay[hidden] { display: none; }
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.success-card {
+  background: var(--card);
+  border: 1px solid var(--valid);
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  text-align: center;
+  max-width: 380px;
+  width: 100%;
+  box-shadow:
+    0 0 0 1px rgba(34,197,94,.1),
+    0 32px 80px rgba(0,0,0,.6);
+  animation: pop-in .4s cubic-bezier(.175,.885,.32,1.275);
+}
+
+@keyframes pop-in {
+  from { transform: scale(.7); opacity: 0; }
+  to   { transform: scale(1);  opacity: 1; }
+}
+
+.success-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  animation: bounce .6s ease .3s both;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  40%       { transform: translateY(-16px); }
+  70%       { transform: translateY(-8px); }
+}
+
+.success-card h2 {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: .5rem;
+}
+
+.success-card p {
+  color: var(--text-muted);
+  font-size: .95rem;
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+}
+
+.reset-btn {
+  padding: .7rem 2rem;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: .9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.reset-btn:hover {
+  border-color: var(--accent);
+  background: rgba(56,189,248,.06);
+}
+
+/* ─── Responsive ───────────────────────────────────────────── */
+@media (max-width: 520px) {
+  .card { padding: 2rem 1.25rem; }
+  .card-header h1 { font-size: 1.5rem; }
+}
+
+/* ─── Reduced Motion ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

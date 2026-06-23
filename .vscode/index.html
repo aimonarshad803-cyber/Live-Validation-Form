@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registration Form</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="page-wrapper">
+    <div class="card">
+
+      <header class="card-header">
+        <div class="logo-mark">✦</div>
+        <h1>Create Account</h1>
+        <p>Fill in your details to get started.</p>
+      </header>
+
+      <form id="registration-form" novalidate>
+
+        <!-- Email -->
+        <div class="field-group" id="group-email">
+          <label for="email">Email Address</label>
+          <div class="input-wrapper">
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+            />
+            <span class="field-icon" aria-hidden="true"></span>
+          </div>
+          <p class="error-msg" id="error-email" role="alert"></p>
+        </div>
+
+        <!-- Country -->
+        <div class="field-group" id="group-country">
+          <label for="country">Country</label>
+          <div class="input-wrapper select-wrapper">
+            <select id="country" name="country">
+              <option value="">— Select your country —</option>
+              <option value="US">United States</option>
+              <option value="GB">United Kingdom</option>
+              <option value="CA">Canada</option>
+              <option value="AU">Australia</option>
+              <option value="PK">Pakistan</option>
+              <option value="IN">India</option>
+              <option value="DE">Germany</option>
+              <option value="FR">France</option>
+              <option value="JP">Japan</option>
+              <option value="BR">Brazil</option>
+              <option value="NG">Nigeria</option>
+              <option value="MX">Mexico</option>
+              <option value="ZA">South Africa</option>
+              <option value="OTHER">Other</option>
+            </select>
+            <span class="field-icon" aria-hidden="true"></span>
+          </div>
+          <p class="error-msg" id="error-country" role="alert"></p>
+        </div>
+
+        <!-- Postal Code -->
+        <div class="field-group" id="group-postal">
+          <label for="postal">Postal / ZIP Code</label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="postal"
+              name="postal"
+              placeholder="e.g. 12345 or SW1A 1AA"
+              autocomplete="postal-code"
+            />
+            <span class="field-icon" aria-hidden="true"></span>
+          </div>
+          <p class="error-msg" id="error-postal" role="alert"></p>
+        </div>
+
+        <!-- Password -->
+        <div class="field-group" id="group-password">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Min. 8 characters"
+              autocomplete="new-password"
+            />
+            <button type="button" class="toggle-pw" data-target="password" aria-label="Show password">
+              <svg class="eye-icon eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-icon eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+            <span class="field-icon" aria-hidden="true"></span>
+          </div>
+          <div class="strength-bar" id="strength-bar" aria-hidden="true">
+            <div class="strength-fill" id="strength-fill"></div>
+          </div>
+          <p class="strength-label" id="strength-label"></p>
+          <p class="error-msg" id="error-password" role="alert"></p>
+        </div>
+
+        <!-- Password Confirmation -->
+        <div class="field-group" id="group-confirm">
+          <label for="confirm">Confirm Password</label>
+          <div class="input-wrapper">
+            <input
+              type="password"
+              id="confirm"
+              name="confirm"
+              placeholder="Repeat your password"
+              autocomplete="new-password"
+            />
+            <button type="button" class="toggle-pw" data-target="confirm" aria-label="Show confirm password">
+              <svg class="eye-icon eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-icon eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+            <span class="field-icon" aria-hidden="true"></span>
+          </div>
+          <p class="error-msg" id="error-confirm" role="alert"></p>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="submit-btn" id="submit-btn">
+          <span class="btn-text">Create Account</span>
+          <span class="btn-arrow">→</span>
+        </button>
+
+        <p class="form-footer">Already have an account? <a href="#">Sign in</a></p>
+
+      </form>
+    </div>
+
+    <!-- Success overlay -->
+    <div class="success-overlay" id="success-overlay" aria-live="polite" hidden>
+      <div class="success-card">
+        <div class="success-icon">🎉</div>
+        <h2>High Five! ✋</h2>
+        <p>Your account has been created successfully.<br>Welcome aboard!</p>
+        <button class="reset-btn" id="reset-btn">Start over</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="validators.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
